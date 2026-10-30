@@ -303,6 +303,10 @@ class KawaiiBarComponent : UniqueViewComponent<KawaiiBarComponent, FrameLayout>(
                 clipboardButton.setOnClickListener {
                     windowManager.attachWindow(ClipboardWindow())
                 }
+                t9Button.setOnClickListener {
+                    val t9 = AppPrefs.getInstance().keyboard.t9Keyboard
+                    t9.setValue(!t9.getValue())
+                }
                 floatingButton.setOnClickListener {
                     val floating = AppPrefs.getInstance().keyboard.floatingKeyboard
                     floating.setValue(!floating.getValue())

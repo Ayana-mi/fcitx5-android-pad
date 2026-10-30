@@ -32,6 +32,8 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) {
         val firstRun = bool("first_run", true)
         val lastSymbolLayout = string("last_symbol_layout", PickerWindow.Key.Symbol.name)
         val lastPickerType = string("last_picker_type", PickerWindow.Key.Emoji.name)
+        // Rime schema to restore when leaving the nine-key layout (blank = not switched)
+        val t9PreviousSchema = string("t9_previous_schema", "")
         val verboseLog = bool("verbose_log", false)
         val pid = int("pid", 0)
         val editorInfoInspector = bool("editor_info_inspector", false)
@@ -244,6 +246,9 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) {
             keyboardBottomPadding = primary
             keyboardBottomPaddingLandscape = secondary
         }
+
+        /** nine-key layout for Rime, see input/keyboard/T9Keyboard.kt */
+        val t9Keyboard = switch(R.string.t9_keyboard, "t9_keyboard", false, R.string.t9_keyboard_summary)
 
         /** the keyboard floats over the app, see input/FloatingKeyboard.kt */
         val floatingKeyboard = switch(R.string.floating_keyboard, "floating_keyboard", false)
