@@ -1,0 +1,43 @@
+name: Pad debug build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/**
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v4
+
+      - name: Install CMake
+        run: sdkmanager --install "cmake;3.31.6"
+
+      - name: Install system dependencies
+        run: |
+          sudo apt update
+          sudo apt install extra-cmake-modules gettext
+
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Build debug APKs (app + Rime plugin)
+        run: ./gradlew :app:assembleDebug :plugin:rime:assembleDebug
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: pad-debug-apks
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            plugin/rime/build/outputs/apk/debug/*.apk

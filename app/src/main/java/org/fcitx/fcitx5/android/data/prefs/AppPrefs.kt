@@ -245,6 +245,19 @@ class AppPrefs(private val sharedPreferences: SharedPreferences) {
             keyboardBottomPaddingLandscape = secondary
         }
 
+        /** the keyboard floats over the app, see input/FloatingKeyboard.kt */
+        val floatingKeyboard = switch(R.string.floating_keyboard, "floating_keyboard", false)
+
+        // where the floating keyboard sits and how big it is, in px; -1 until the user moves or resizes it
+        val floatingKeyboardX =
+            ManagedPreference.PInt(sharedPreferences, "floating_keyboard_x", -1).apply { register() }
+        val floatingKeyboardBottom =
+            ManagedPreference.PInt(sharedPreferences, "floating_keyboard_bottom", -1).apply { register() }
+        val floatingKeyboardWidth =
+            ManagedPreference.PInt(sharedPreferences, "floating_keyboard_width", -1).apply { register() }
+        val floatingKeyboardHeight =
+            ManagedPreference.PInt(sharedPreferences, "floating_keyboard_height", -1).apply { register() }
+
         val horizontalCandidateStyle = enumList(
             R.string.horizontal_candidate_style,
             "horizontal_candidate_style",
